@@ -19,13 +19,6 @@ pipeline{
             }
         }
 
-
-        stage('continue?'){
-            input{
-                message "if testing working fine, should we continue?"
-                ok "yes we should"
-            }
-        }
         stage("Deploy prod"){
             steps{
                 echo "========Deploying on prod environment========"
