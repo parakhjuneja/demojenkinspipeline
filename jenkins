@@ -23,7 +23,7 @@ pipeline{
         stage('continue?'){
             input{
                 message "if testing working fine, should we continue?"
-                OK "yes we should"
+                ok "yes we should"
             }
         }
         stage("Deploy prod"){
