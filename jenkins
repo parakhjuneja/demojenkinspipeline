@@ -1,74 +1,46 @@
-pipeline {
+pipeline{
     agent any
-    environment{
-        name='gourav'
-    }
-    parameters{
-        string(name: 'person', defaultValue:"sourav sharma", description:"who are you?")
-        booleanParam(name: 'isMale', defaultValue:"true", description:"")
-        choice(name: 'city', choices: ['Jaipur','bhopal','Pune'], description:"")
-    }
+    stages{
+        stage("Test"){
+            steps{
+                echo "========Testing being done========"
+            }
+        }
 
-    stages {
-        stage('Run a command') {
-            steps {
-               sh '''
-               date
-               pwd
-               ls
-               cal 2023
-               '''
+        stage("Build"){
+            steps{
+                echo "========Build being done========"
             }
         }
-        
-        stage('pipeline variable') {
-            environment{myusername='rootuser'}
-            steps {
-                sh 'echo "${name}"'
-                sh 'echo "${myusername}"'
-                sh 'echo "${BUILD-ID}"'
-                
+
+        stage("Deploy Test"){
+            steps{
+                echo "========Deploying on Testing environment========"
             }
         }
-        
-        stage('only pipeline') {
-            steps {
-                sh 'echo "${myusername}"'
+
+
+        stage('continue?'){
+            input{
+                message "if testing working fine, should we continue?"
+                OK "yes we should"
             }
         }
-        
-        stage('continue ?') {
-            
-            input {
-                
-                message "should we continue?"
-                ok "Yes we should"
-            }
-            steps {
-               echo "deployonprod"
-            }
-        }
-        
-        
-        stage('deployonprod') {
-            steps {
-               echo "deployonprod"
+        stage("Deploy prod"){
+            steps{
+                echo "========Deploying on prod environment========"
             }
         }
     }
-    
     post{
         always{
-            echo 'I will always say Hello, bye again'
+            echo "========always========"
         }
-        
         success{
-            echo 'success'
+            echo "========pipeline executed successfully ========"
         }
-        
         failure{
-            echo 'failure'
-        }    
+            echo "========pipeline execution failed========"
+        }
     }
-    
 }
